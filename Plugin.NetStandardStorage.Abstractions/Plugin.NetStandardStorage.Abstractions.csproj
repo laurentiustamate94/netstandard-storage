@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IFile.cs" />
+    <Compile Include="Interfaces\IFileSystem.cs" />
+    <Compile Include="Interfaces\IFolder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\CreationCollisionOption.cs" />
     <Compile Include="Types\NameCollisionOption.cs" />
