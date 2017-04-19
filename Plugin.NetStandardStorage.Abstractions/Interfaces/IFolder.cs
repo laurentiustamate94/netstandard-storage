@@ -30,7 +30,7 @@ namespace Plugin.NetStandardStorage.Abstractions.Interfaces
         /// handle the collision if a file with the specified *name* 
         /// already exists in the current folder.</param>
         /// <returns>When this method completes, it returns a File</returns>
-        IFile CreateFile(string name, CreationCollisionOption options);
+        IFile CreateFile(string name, CreationCollisionOption option);
 
         /// <summary>
         /// Gets the file with the specified name from the current folder.
@@ -62,7 +62,7 @@ namespace Plugin.NetStandardStorage.Abstractions.Interfaces
         /// handle the collision if a folder with the specified *name* 
         /// already exists in the current folder.</param>
         /// <returns>When this method completes, it returns a Folder</returns>
-        IFolder CreateFolder(string name, CreationCollisionOption options);
+        IFolder CreateFolder(string name, CreationCollisionOption option);
 
         /// <summary>
         /// Gets the folder with the specified name from the current folder.
