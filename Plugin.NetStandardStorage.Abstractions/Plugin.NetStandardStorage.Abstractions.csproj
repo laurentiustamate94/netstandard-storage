@@ -8,7 +8,7 @@
     <ProjectGuid>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Plugin.NetStandardStorage.Abstractions</RootNamespace>
+    <RootNamespace>Plugin.NetStandardStorage</RootNamespace>
     <AssemblyName>Plugin.NetStandardStorage.Abstractions</AssemblyName>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
