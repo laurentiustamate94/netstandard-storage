@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Plugin.NetStandardStorage.Abstractions.Interfaces;
 using Plugin.NetStandardStorage.Abstractions.Types;
@@ -130,6 +131,21 @@ namespace Plugin.NetStandardStorage.Implementations
             var newPath = Path.Combine(Path.GetDirectoryName(this.FullPath), newName);
 
             Move(newPath, option);
+        }
+
+        public void WriteAllBytes(byte[] bytes)
+        {
+            System.IO.File.WriteAllBytes(this.FullPath, bytes);
+        }
+
+        public void WriteAllLines(IEnumerable<string> contents)
+        {
+            System.IO.File.WriteAllLines(this.FullPath, contents);
+        }
+
+        public void WriteAllText(string contents)
+        {
+            System.IO.File.WriteAllText(this.FullPath, contents);
         }
     }
 }
