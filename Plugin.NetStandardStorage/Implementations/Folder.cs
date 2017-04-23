@@ -49,8 +49,6 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *name* argument not allowed !");
             }
 
-            var newDirectory = Path.GetDirectoryName(this.FullPath);
-
             var counter = 1;
             var candidateName = name;
 
@@ -65,9 +63,12 @@ namespace Plugin.NetStandardStorage.Implementations
                         Path.GetExtension(name));
                 }
 
-                var candidatePath = Path.Combine(newDirectory, candidateName);
+                var candidatePath = Path.Combine(this.FullPath, candidateName);
 
-                if (System.IO.File.Exists(candidatePath))
+                var existsFile = this.CheckFileExists(candidatePath);
+                var existsFolder = this.CheckFolderExists(candidatePath);
+
+                if (existsFile || existsFolder)
                 {
                     if (option == CreationCollisionOption.GenerateUniqueName)
                     {
@@ -75,15 +76,31 @@ namespace Plugin.NetStandardStorage.Implementations
                     }
                     else if (option == CreationCollisionOption.ReplaceExisting)
                     {
-                        System.IO.File.Delete(candidatePath);
+                        if (existsFolder)
+                        {
+                            new Folder(candidatePath)
+                                .Delete();
+                        }
+                        else
+                        {
+                            new File(candidatePath)
+                                .Delete();
+                        }
                     }
                     else if (option == CreationCollisionOption.FailIfExists)
                     {
-                        throw new IOException("File already exists at path: " + candidatePath);
+                        if (existsFolder)
+                        {
+                            throw new IOException("Folder already exists with same name at path: " + candidatePath);
+                        }
+                        else
+                        {
+                            throw new IOException("File already exists at path: " + candidatePath);
+                        }
                     }
                     else if (option == CreationCollisionOption.OpenIfExists)
                     {
-                        // Nothing.
+                        return new File(candidatePath);
                     }
                     else
                     {
@@ -91,7 +108,8 @@ namespace Plugin.NetStandardStorage.Implementations
                     }
                 }
 
-                this.CreateAndDispose(candidatePath);
+                System.IO.File.Create(candidatePath)
+                    .Dispose();
 
                 return new File(candidatePath);
             }
@@ -106,7 +124,7 @@ namespace Plugin.NetStandardStorage.Implementations
 
             var path = Path.Combine(this.FullPath, name);
 
-            if (!System.IO.File.Exists(path))
+            if (!this.CheckFileExists(path))
             {
                 throw new FileNotFoundException("The file was not found at the specified path: " + path);
             }
@@ -129,8 +147,6 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *name* argument not allowed !");
             }
 
-            var newDirectory = Path.GetDirectoryName(this.FullPath);
-
             var counter = 1;
             var candidateName = name;
 
@@ -144,9 +160,12 @@ namespace Plugin.NetStandardStorage.Implementations
                         counter);
                 }
 
-                var candidatePath = Path.Combine(newDirectory, candidateName);
+                var candidatePath = Path.Combine(this.FullPath, candidateName);
 
-                if (Directory.Exists(candidatePath))
+                var existsFile = this.CheckFileExists(candidatePath);
+                var existsFolder = this.CheckFolderExists(candidatePath);
+
+                if (existsFolder || existsFile)
                 {
                     if (option == CreationCollisionOption.GenerateUniqueName)
                     {
@@ -154,15 +173,31 @@ namespace Plugin.NetStandardStorage.Implementations
                     }
                     else if (option == CreationCollisionOption.ReplaceExisting)
                     {
-                        Directory.Delete(candidatePath);
+                        if (existsFile)
+                        {
+                            new File(candidatePath)
+                                .Delete();
+                        }
+                        else
+                        {
+                            new Folder(candidatePath)
+                                .Delete();
+                        }
                     }
                     else if (option == CreationCollisionOption.FailIfExists)
                     {
-                        throw new IOException("File already exists at path: " + candidatePath);
+                        if (existsFile)
+                        {
+                            throw new IOException("File already exists with same name at path: " + candidatePath);
+                        }
+                        else
+                        {
+                            throw new IOException("Folder already exists at path: " + candidatePath);
+                        }
                     }
                     else if (option == CreationCollisionOption.OpenIfExists)
                     {
-                        // Nothing.
+                        return new Folder(candidatePath);
                     }
                     else
                     {
@@ -185,9 +220,9 @@ namespace Plugin.NetStandardStorage.Implementations
 
             var path = Path.Combine(this.FullPath, name);
 
-            if (!Directory.Exists(path))
+            if (!this.CheckFolderExists(path))
             {
-                throw new DirectoryNotFoundException("The directory was not found at the specified path: " + path);
+                throw new DirectoryNotFoundException("The folder was not found at the specified path: " + path);
             }
 
             return new Folder(path);
@@ -201,17 +236,13 @@ namespace Plugin.NetStandardStorage.Implementations
                 .AsReadOnly();
         }
 
-        public bool CheckFileExists(string name)
+        public bool CheckFileExists(string path)
         {
-            var path = Path.Combine(this.FullPath, name);
-
             return System.IO.File.Exists(path);
         }
 
-        public bool CheckFolderExists(string name)
+        public bool CheckFolderExists(string path)
         {
-            var path = Path.Combine(this.FullPath, name);
-
             return Directory.Exists(path);
         }
 
@@ -222,16 +253,10 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new IOException("The root folder can't be deleted !");
             }
 
-            if (Directory.Exists(this.FullPath))
+            if (this.CheckFolderExists(this.FullPath))
             {
                 Directory.Delete(this.FullPath);
             }
-        }
-
-        private void CreateAndDispose(string newPath)
-        {
-            System.IO.File.Create(newPath)
-                .Dispose();
         }
     }
 }
