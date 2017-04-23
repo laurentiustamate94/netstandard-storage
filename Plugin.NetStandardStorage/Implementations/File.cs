@@ -74,7 +74,10 @@ namespace Plugin.NetStandardStorage.Implementations
 
                 var candidatePath = Path.Combine(newDirectory, candidateName);
 
-                if (System.IO.File.Exists(candidatePath))
+                var existsFile = System.IO.File.Exists(candidatePath);
+                var existsDirectory = Directory.Exists(candidatePath);
+
+                if (existsFile || existsDirectory)
                 {
                     if (option == NameCollisionOption.GenerateUniqueName)
                     {
@@ -82,11 +85,27 @@ namespace Plugin.NetStandardStorage.Implementations
                     }
                     else if (option == NameCollisionOption.ReplaceExisting)
                     {
-                        System.IO.File.Delete(candidatePath);
+                        if (existsDirectory)
+                        {
+                            new Folder(candidatePath)
+                                .Delete();
+                        }
+                        else
+                        {
+                            new File(candidatePath)
+                                .Delete();
+                        }
                     }
                     else if (option == NameCollisionOption.FailIfExists)
                     {
-                        throw new IOException("File already exists at path: " + candidatePath);
+                        if (existsDirectory)
+                        {
+                            throw new IOException("Folder already exists with same name at path: " + candidatePath);
+                        }
+                        else
+                        {
+                            throw new IOException("File already exists at path: " + candidatePath);
+                        }
                     }
                     else
                     {
