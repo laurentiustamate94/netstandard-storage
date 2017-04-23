@@ -7,7 +7,7 @@ namespace Plugin.NetStandardStorage
     public sealed class NetStandardStorage
     {
         private static Lazy<IFileSystem> _fileSystem
-            = new Lazy<IFileSystem>(() => new FileSystem(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+            = new Lazy<IFileSystem>(() => CreateFileSystem(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
 
         public static IFileSystem FileSystem
         {
@@ -17,9 +17,16 @@ namespace Plugin.NetStandardStorage
             }
         }
 
+        private static IFileSystem CreateFileSystem()
+        {
+#if !PORTABLE
+            return new FileSystem();
+#endif
+            throw new PlatformNotSupportedException();
+        }
+
         private NetStandardStorage()
         {
-
         }
     }
 }
