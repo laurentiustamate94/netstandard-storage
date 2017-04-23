@@ -39,7 +39,7 @@
     <Compile Include="Implementations\File.cs" />
     <Compile Include="Implementations\FileSystem.cs" />
     <Compile Include="Implementations\Folder.cs" />
-    <Compile Include="NetStandardStorage.cs" />
+    <Compile Include="CrossStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

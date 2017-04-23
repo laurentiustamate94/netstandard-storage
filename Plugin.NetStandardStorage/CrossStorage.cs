@@ -4,7 +4,7 @@ using Plugin.NetStandardStorage.Implementations;
 
 namespace Plugin.NetStandardStorage
 {
-    public sealed class NetStandardStorage
+    public sealed class CrossStorage
     {
         private static Lazy<IFileSystem> _fileSystem
             = new Lazy<IFileSystem>(() => CreateFileSystem(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
@@ -25,7 +25,7 @@ namespace Plugin.NetStandardStorage
             throw new PlatformNotSupportedException();
         }
 
-        private NetStandardStorage()
+        private CrossStorage()
         {
         }
     }

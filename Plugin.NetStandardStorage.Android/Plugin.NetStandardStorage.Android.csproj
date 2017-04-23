@@ -53,8 +53,8 @@
     <Compile Include="..\Plugin.NetStandardStorage\Implementations\Folder.cs">
       <Link>Implementations\Folder.cs</Link>
     </Compile>
-    <Compile Include="..\Plugin.NetStandardStorage\NetStandardStorage.cs">
-      <Link>NetStandardStorage.cs</Link>
+    <Compile Include="..\Plugin.NetStandardStorage\CrossStorage.cs">
+      <Link>CrossStorage.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
