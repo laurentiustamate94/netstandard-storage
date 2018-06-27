@@ -236,8 +236,9 @@ namespace Plugin.NetStandardStorage.Implementations
                 .AsReadOnly();
         }
 
-        public bool CheckFileExists(string path)
+        public bool CheckFileExists(string fileName)
         {
+            var path = Path.Combine(FullPath, fileName);
             return System.IO.File.Exists(path);
         }
 
