@@ -90,5 +90,11 @@ namespace Plugin.NetStandardStorage.Abstractions.Interfaces
         /// Deletes the current folder.
         /// </summary>
         void Delete();
+
+        /// <summary>
+        /// Deletes the current folder with all of its content.
+        /// Warning: Recurse delete.
+        /// </summary>
+        void DeleteWithContent();
     }
 }

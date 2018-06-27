@@ -259,5 +259,18 @@ namespace Plugin.NetStandardStorage.Implementations
                 Directory.Delete(this.FullPath);
             }
         }
+
+        public void DeleteWithContent()
+        {
+            if (!this._canDelete)
+            {
+                throw new IOException("The root folder can't be deleted !");
+            }
+
+            if (this.CheckFolderExists(this.FullPath))
+            {
+                Directory.Delete(this.FullPath, true);
+            }
+        }
     }
 }
