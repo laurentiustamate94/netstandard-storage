@@ -239,6 +239,7 @@ namespace Plugin.NetStandardStorage.Implementations
         public bool CheckFileExists(string fileName)
         {
             var path = Path.Combine(FullPath, fileName);
+
             return System.IO.File.Exists(path);
         }
 
@@ -260,7 +261,7 @@ namespace Plugin.NetStandardStorage.Implementations
             }
         }
 
-        public void DeleteWithContent()
+        public void DeleteRecursively()
         {
             if (!this._canDelete)
             {
@@ -269,7 +270,7 @@ namespace Plugin.NetStandardStorage.Implementations
 
             if (this.CheckFolderExists(this.FullPath))
             {
-                Directory.Delete(this.FullPath, true);
+                Directory.Delete(this.FullPath, recursive: true);
             }
         }
     }
