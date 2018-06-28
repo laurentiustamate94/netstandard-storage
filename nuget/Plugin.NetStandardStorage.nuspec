@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>Plugin.NetStandardStorage</id>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
         <title>NetStandardStorage</title>
         <authors>Laurentiu Stamate</authors>
         <owners>Laurentiu Stamate</owners>
@@ -11,8 +11,8 @@
         <iconUrl>https://raw.githubusercontent.com/laurentiustamate94/netstandard-storage/master/nuget/pickles_64.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>NetStandard rewrite of the PCL Storage plugin</description>
-        <releaseNotes>BREAKING CHANGES: Rename main entry point class to simplify name usage</releaseNotes>
-        <copyright>Copyright 2017</copyright>
+        <releaseNotes>Add DeleteRecursively method for folders thanks to Adam @ https://github.com/adambarath</releaseNotes>
+        <copyright>Copyright 2018</copyright>
         <tags>xamarin xamarin-forms netstandard</tags>
         <dependencies>
             <group targetFramework="MonoAndroid10">
