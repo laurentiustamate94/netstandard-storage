@@ -236,8 +236,10 @@ namespace Plugin.NetStandardStorage.Implementations
                 .AsReadOnly();
         }
 
-        public bool CheckFileExists(string path)
+        public bool CheckFileExists(string fileName)
         {
+            var path = Path.Combine(FullPath, fileName);
+
             return System.IO.File.Exists(path);
         }
 
@@ -256,6 +258,19 @@ namespace Plugin.NetStandardStorage.Implementations
             if (this.CheckFolderExists(this.FullPath))
             {
                 Directory.Delete(this.FullPath);
+            }
+        }
+
+        public void DeleteRecursively()
+        {
+            if (!this._canDelete)
+            {
+                throw new IOException("The root folder can't be deleted !");
+            }
+
+            if (this.CheckFolderExists(this.FullPath))
+            {
+                Directory.Delete(this.FullPath, recursive: true);
             }
         }
     }
