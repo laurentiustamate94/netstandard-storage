@@ -220,7 +220,7 @@ namespace Plugin.NetStandardStorage.Implementations
 
             var path = Path.Combine(this.FullPath, name);
 
-            if (!this.CheckFolderExists(path))
+            if (!CheckFolderExists(path))
             {
                 throw new DirectoryNotFoundException("The folder was not found at the specified path: " + path);
             }
@@ -246,7 +246,7 @@ namespace Plugin.NetStandardStorage.Implementations
         public bool CheckFolderExists(string folderName)
         {
             var path = Path.Combine(FullPath, folderName);
-        
+
             return Directory.Exists(path);
         }
 
