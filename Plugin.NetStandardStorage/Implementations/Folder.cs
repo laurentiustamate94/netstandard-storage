@@ -243,8 +243,10 @@ namespace Plugin.NetStandardStorage.Implementations
             return System.IO.File.Exists(path);
         }
 
-        public bool CheckFolderExists(string path)
+        public bool CheckFolderExists(string relativeFolder)
         {
+            var path = Path.Combine(FullPath, relativeFolder);
+
             return Directory.Exists(path);
         }
 
