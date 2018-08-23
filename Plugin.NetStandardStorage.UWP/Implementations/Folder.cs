@@ -125,6 +125,9 @@ namespace Plugin.NetStandardStorage.Implementations
         {
             var folder = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(this.FullPath);
 
+            // HACKY HACK: in case of candidatename is fullpath
+            candidateName = candidateName.Replace(FullPath, "");
+
             await folder.CreateFileAsync(candidateName);
         }
 
@@ -229,6 +232,9 @@ namespace Plugin.NetStandardStorage.Implementations
         {
             var folder = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(this.FullPath);
 
+            // HACKY HACK: in case of candidatename is fullpath
+            candidateName = candidateName.Replace(FullPath, "");
+
             await folder.CreateFolderAsync(candidateName);
         }
 
@@ -259,6 +265,9 @@ namespace Plugin.NetStandardStorage.Implementations
 
         public bool CheckFileExists(string fileName)
         {
+            // HACKY HACK: in case of parameter is fullpath
+            fileName = fileName.Replace(FullPath, "");
+
             var path = Path.Combine(FullPath, fileName);
 
             return System.IO.File.Exists(path);
@@ -266,6 +275,9 @@ namespace Plugin.NetStandardStorage.Implementations
 
         public bool CheckFolderExists(string folderName)
         {
+            // HACKY HACK: in case of parameter is fullpath
+            folderName = folderName.Replace(FullPath, "");
+
             var path = Path.Combine(FullPath, folderName);
 
             return Directory.Exists(path);
