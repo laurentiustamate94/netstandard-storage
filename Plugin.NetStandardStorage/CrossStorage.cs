@@ -1,32 +1,23 @@
-﻿using System;
-using Plugin.NetStandardStorage.Abstractions.Interfaces;
-using Plugin.NetStandardStorage.Implementations;
+﻿using Plugin.NetStandardStorage.Abstractions.Interfaces;
+using System;
 
 namespace Plugin.NetStandardStorage
 {
-    public sealed class CrossStorage
+    public static class CrossStorage
     {
-        private static Lazy<IFileSystem> _fileSystem
-            = new Lazy<IFileSystem>(() => CreateFileSystem(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
+        private static Lazy<IFileSystem> fileSystem;
 
         public static IFileSystem FileSystem
+            => fileSystem?.Value ?? throw new NotIInitializedException();
+
+
+        public static void Init<T>()
+            where T : IFileSystem, new()
         {
-            get
+            if (fileSystem == null)
             {
-                return _fileSystem.Value;
+                fileSystem = new Lazy<IFileSystem>(() => new T(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
             }
-        }
-
-        private static IFileSystem CreateFileSystem()
-        {
-#if !PORTABLE
-            return new FileSystem();
-#endif
-            throw new PlatformNotSupportedException();
-        }
-
-        private CrossStorage()
-        {
         }
     }
 }

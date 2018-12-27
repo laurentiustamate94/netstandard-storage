@@ -9,25 +9,11 @@ namespace Plugin.NetStandardStorage.Implementations
 {
     public class Folder : IFolder
     {
-        private string _name;
-        private string _fullPath;
-        private bool _canDelete;
+        private readonly bool canDelete;
 
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-        }
+        public string Name { get; }
 
-        public string FullPath
-        {
-            get
-            {
-                return this._fullPath;
-            }
-        }
+        public string FullPath { get; }
 
         public Folder(string fullPath, bool canDelete = true)
         {
@@ -36,10 +22,10 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *fullPath* argument not allowed !");
             }
 
-            this._fullPath = fullPath;
-            this._name = Path.GetFileName(fullPath);
+            FullPath = fullPath;
+            Name = Path.GetFileName(fullPath);
 
-            this._canDelete = canDelete;
+            this.canDelete = canDelete;
         }
 
         public IFile CreateFile(string name, CreationCollisionOption option)
@@ -63,10 +49,10 @@ namespace Plugin.NetStandardStorage.Implementations
                         Path.GetExtension(name));
                 }
 
-                var candidatePath = Path.Combine(this.FullPath, candidateName);
+                var candidatePath = Path.Combine(FullPath, candidateName);
 
-                var existsFile = this.CheckFileExists(candidatePath);
-                var existsFolder = this.CheckFolderExists(candidatePath);
+                var existsFile = CheckFileExists(candidatePath);
+                var existsFolder = CheckFolderExists(candidatePath);
 
                 if (existsFile || existsFolder)
                 {
@@ -122,9 +108,9 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *name* argument not allowed !");
             }
 
-            var path = Path.Combine(this.FullPath, name);
+            var path = Path.Combine(FullPath, name);
 
-            if (!this.CheckFileExists(path))
+            if (!CheckFileExists(path))
             {
                 throw new FileNotFoundException("The file was not found at the specified path: " + path);
             }
@@ -134,7 +120,7 @@ namespace Plugin.NetStandardStorage.Implementations
 
         public IList<IFile> GetFiles()
         {
-            return Directory.GetFiles(this.FullPath)
+            return Directory.GetFiles(FullPath)
                 .Select(path => new File(path))
                 .ToList<IFile>()
                 .AsReadOnly();
@@ -154,16 +140,13 @@ namespace Plugin.NetStandardStorage.Implementations
             {
                 if (counter > 1)
                 {
-                    candidateName = String.Format(
-                        "{0} ({1})",
-                        name,
-                        counter);
+                    candidateName = $"{name} ({counter})";
                 }
 
-                var candidatePath = Path.Combine(this.FullPath, candidateName);
+                var candidatePath = Path.Combine(FullPath, candidateName);
 
-                var existsFile = this.CheckFileExists(candidatePath);
-                var existsFolder = this.CheckFolderExists(candidatePath);
+                var existsFile = CheckFileExists(candidatePath);
+                var existsFolder = CheckFolderExists(candidatePath);
 
                 if (existsFolder || existsFile)
                 {
@@ -218,7 +201,7 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *name* argument not allowed !");
             }
 
-            var path = Path.Combine(this.FullPath, name);
+            var path = Path.Combine(FullPath, name);
 
             if (!CheckFolderExists(path))
             {
@@ -230,7 +213,7 @@ namespace Plugin.NetStandardStorage.Implementations
 
         public IList<IFolder> GetFolders()
         {
-            return Directory.GetDirectories(this.FullPath)
+            return Directory.GetDirectories(FullPath)
                 .Select(path => new Folder(path))
                 .ToList<IFolder>()
                 .AsReadOnly();
@@ -252,27 +235,27 @@ namespace Plugin.NetStandardStorage.Implementations
 
         public void Delete()
         {
-            if (!this._canDelete)
+            if (!canDelete)
             {
                 throw new IOException("The root folder can't be deleted !");
             }
 
-            if (this.CheckFolderExists(this.FullPath))
+            if (CheckFolderExists(FullPath))
             {
-                Directory.Delete(this.FullPath);
+                Directory.Delete(FullPath);
             }
         }
 
         public void DeleteRecursively()
         {
-            if (!this._canDelete)
+            if (!canDelete)
             {
                 throw new IOException("The root folder can't be deleted !");
             }
 
-            if (this.CheckFolderExists(this.FullPath))
+            if (CheckFolderExists(FullPath))
             {
-                Directory.Delete(this.FullPath, recursive: true);
+                Directory.Delete(FullPath, recursive: true);
             }
         }
     }

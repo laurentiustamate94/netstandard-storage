@@ -6,7 +6,7 @@ namespace Plugin.NetStandardStorage.Implementations
 {
     public class FileSystem : IFileSystem
     {
-        public IFolder LocalStorage
+        public virtual IFolder LocalStorage
         {
             get
             {
@@ -14,14 +14,22 @@ namespace Plugin.NetStandardStorage.Implementations
 
                 if (IsAndroidStorage(tempPath))
                 {
+                    // TODO:
+                    //var localStorage = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+                    //return new Folder(localStorage, canDelete: false);
                     return GetAndroidFolder(tempPath, "files");
                 }
                 else if (IsIosStorage(tempPath))
                 {
+                    // TODO:
+                    //var localStorage = Foundation.NSFileManager.DefaultManager.GetUrls(Foundation.NSSearchPathDirectory.LibraryDirectory, Foundation.NSSearchPathDomain.User)[0];
+                    //return new Folder(localStorage.Path, canDelete: false);
                     return GetIosFolder(tempPath, "Library");
                 }
                 else if (IsUwpStorage(tempPath))
                 {
+                    // TODO:
+                    //return new Folder(Windows.Storage.ApplicationData.Current.LocalFolder.Path, canDelete: false);
                     return GetUwpFolder(tempPath, "LocalState");
                 }
 
@@ -29,7 +37,7 @@ namespace Plugin.NetStandardStorage.Implementations
             }
         }
 
-        public IFolder RoamingStorage
+        public virtual IFolder RoamingStorage
         {
             get
             {
@@ -38,14 +46,20 @@ namespace Plugin.NetStandardStorage.Implementations
                 if (IsAndroidStorage(tempPath))
                 {
                     return null;
+                    // TODO:
+                    //throw new System.PlatformNotSupportedException("The Roaming folder is not supported in Android !");
                 }
                 else if (IsIosStorage(tempPath))
                 {
                     return null;
+                    // TODO:
+                    //throw new System.PlatformNotSupportedException("The Roaming folder is not supported in iOS !");
                 }
                 else if (IsUwpStorage(tempPath))
                 {
                     return GetUwpFolder(tempPath, "RoamingState");
+                    // TODO:
+                    //return new Folder(Windows.Storage.ApplicationData.Current.RoamingFolder.Path, canDelete: false);
                 }
 
                 throw new PlatformNotSupportedException();
@@ -92,7 +106,7 @@ namespace Plugin.NetStandardStorage.Implementations
         private IFolder GetAndroidFolder(string tempPath, string name)
         {
             var path = tempPath.Replace("/cache/", "");
-            path += string.Format("/{0}", name);
+            path += $"/{name}";
 
             return new Folder(path, canDelete: false);
         }
@@ -109,7 +123,7 @@ namespace Plugin.NetStandardStorage.Implementations
         private IFolder GetIosFolder(string tempPath, string name)
         {
             var path = tempPath.Replace("/tmp/", "");
-            path += string.Format("/{0}", name);
+            path += $"/{name}";
 
             return new Folder(path, canDelete: false);
         }
@@ -126,7 +140,7 @@ namespace Plugin.NetStandardStorage.Implementations
         private IFolder GetUwpFolder(string tempPath, string name)
         {
             var path = tempPath.Replace(@"\AC\Temp\", "");
-            path += string.Format(@"\{0}", name);
+            path += $@"\{name}";
 
             return new Folder(path, canDelete: false);
         }

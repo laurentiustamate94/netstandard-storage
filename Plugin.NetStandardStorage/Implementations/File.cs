@@ -8,24 +8,9 @@ namespace Plugin.NetStandardStorage.Implementations
 {
     public class File : IFile
     {
-        private string _name;
-        private string _fullPath;
+        public string Name { get; private set; }
 
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-        }
-
-        public string FullPath
-        {
-            get
-            {
-                return this._fullPath;
-            }
-        }
+        public string FullPath { get; private set; }
 
         public File(string fullPath)
         {
@@ -34,18 +19,18 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *fullPath* argument not allowed !");
             }
 
-            this._fullPath = fullPath;
-            this._name = Path.GetFileName(fullPath);
+            FullPath = fullPath;
+            Name = Path.GetFileName(fullPath);
         }
 
         public void Delete()
         {
-            if (!System.IO.File.Exists(this.FullPath))
+            if (!System.IO.File.Exists(FullPath))
             {
                 throw new FileNotFoundException("The file was not found at the specified path: " + this.FullPath);
             }
 
-            System.IO.File.Delete(this.FullPath);
+            System.IO.File.Delete(FullPath);
         }
 
         public void Move(string newPath, NameCollisionOption option = NameCollisionOption.ReplaceExisting)
@@ -113,10 +98,10 @@ namespace Plugin.NetStandardStorage.Implementations
                     }
                 }
 
-                System.IO.File.Move(this.FullPath, candidatePath);
+                System.IO.File.Move(FullPath, candidatePath);
 
-                this._fullPath = candidatePath;
-                this._name = candidateName;
+                FullPath = candidatePath;
+                Name = candidateName;
 
                 break;
             }
@@ -126,11 +111,11 @@ namespace Plugin.NetStandardStorage.Implementations
         {
             if (fileAccess == FileAccess.Read)
             {
-                return System.IO.File.OpenRead(this.FullPath);
+                return System.IO.File.OpenRead(FullPath);
             }
             else if (fileAccess == FileAccess.Write)
             {
-                return System.IO.File.OpenWrite(this.FullPath);
+                return System.IO.File.OpenWrite(FullPath);
             }
             else if (fileAccess == FileAccess.ReadWrite)
             {
@@ -147,24 +132,24 @@ namespace Plugin.NetStandardStorage.Implementations
                 throw new FormatException("Null or emtpy *newName* argument not allowed !");
             }
 
-            var newPath = Path.Combine(Path.GetDirectoryName(this.FullPath), newName);
+            var newPath = Path.Combine(Path.GetDirectoryName(FullPath), newName);
 
             Move(newPath, option);
         }
 
         public void WriteAllBytes(byte[] bytes)
         {
-            System.IO.File.WriteAllBytes(this.FullPath, bytes);
+            System.IO.File.WriteAllBytes(FullPath, bytes);
         }
 
         public void WriteAllLines(IEnumerable<string> contents)
         {
-            System.IO.File.WriteAllLines(this.FullPath, contents);
+            System.IO.File.WriteAllLines(FullPath, contents);
         }
 
         public void WriteAllText(string contents)
         {
-            System.IO.File.WriteAllText(this.FullPath, contents);
+            System.IO.File.WriteAllText(FullPath, contents);
         }
     }
 }
