@@ -2,7 +2,7 @@
 <package>
     <metadata>
         <id>Plugin.NetStandardStorage</id>
-        <version>1.0.7</version>
+        <version>2.0.0</version>
         <title>NetStandardStorage</title>
         <authors>Laurentiu Stamate</authors>
         <owners>Laurentiu Stamate</owners>
@@ -15,7 +15,7 @@
         - Francois @ https://github.com/BeaumerF
         -  Adam @ https://github.com/adambarath
         </releaseNotes>
-        <copyright>Copyright 2018</copyright>
+        <copyright>Copyright 2019</copyright>
         <tags>xamarin xamarin-forms netstandard</tags>
         <dependencies>
             <group targetFramework="MonoAndroid10">
@@ -32,19 +32,15 @@
     </metadata>
     <files>
         <!-- NetStandard reference assemblies -->
-        <file src="..\Plugin.NetStandardStorage\bin\Release\Plugin.NetStandardStorage.dll" target="lib\netstandard1.4\Plugin.NetStandardStorage.dll" />
-        <file src="..\Plugin.NetStandardStorage.Abstractions\bin\Release\Plugin.NetStandardStorage.Abstractions.dll" target="lib\netstandard1.4\Plugin.NetStandardStorage.Abstractions.dll" />
+        <file src="..\Plugin.NetStandardStorage\bin\Release\netstandard1.6\Plugin.NetStandardStorage.dll" target="lib\netstandard1.6\Plugin.NetStandardStorage.dll" />
         
 		<!-- Android reference assemblies -->
         <file src="..\Plugin.NetStandardStorage.Android\bin\Release\Plugin.NetStandardStorage.dll" target="lib\MonoAndroid10\Plugin.NetStandardStorage.dll" />
-        <file src="..\Plugin.NetStandardStorage.Abstractions\bin\Release\Plugin.NetStandardStorage.Abstractions.dll" target="lib\MonoAndroid10\Plugin.NetStandardStorage.Abstractions.dll" />
         
 		<!-- iOS reference assemblies -->
         <file src="..\Plugin.NetStandardStorage.iOS\bin\Release\Plugin.NetStandardStorage.dll" target="lib\Xamarin.iOS10\Plugin.NetStandardStorage.dll" />
-        <file src="..\Plugin.NetStandardStorage.Abstractions\bin\Release\Plugin.NetStandardStorage.Abstractions.dll" target="lib\Xamarin.iOS10\Plugin.NetStandardStorage.Abstractions.dll" />
         
 		<!-- UWP reference assemblies -->
         <file src="..\Plugin.NetStandardStorage.UWP\bin\Release\Plugin.NetStandardStorage.dll" target="lib\uap10\Plugin.NetStandardStorage.dll" />
-        <file src="..\Plugin.NetStandardStorage.Abstractions\bin\Release\Plugin.NetStandardStorage.Abstractions.dll" target="lib\uap10\Plugin.NetStandardStorage.Abstractions.dll" />
     </files>
 </package>
